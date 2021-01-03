@@ -1,4 +1,3 @@
-# Tkinter (GUI) and pytube
 from tkinter import *
 import pytube
 
@@ -36,6 +35,7 @@ def create_download_page():
     add_button.pack()
     clear_button.pack()
     download_button.pack()
+    entry_field.insert(0, "Copy URL here")
 
 def remove_download_page():
     entry_field.destroy()
@@ -67,7 +67,7 @@ def remove_log():
         finished_log_label.destroy()
         continue_button.destroy()
     except:
-        finish_label.destroy()
+        log_label.destroy()
         finished_log_label.destroy()
         continue_button.destroy()
     create_start_page()
@@ -112,6 +112,6 @@ def download_videos(): # I wouldn't change this too much
         continue_button = Button(root, text="Continue", command=remove_log)
         continue_button.pack()
 
-create_start_page()
+create_start_page() # Starting page
 
 root.mainloop()
