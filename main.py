@@ -1,11 +1,13 @@
 from tkinter import *
 import pytube
+import os
 
 root = Tk()
-root.iconbitmap("Assets/downloader.ico")
+root.iconbitmap("assets/downloader.ico")
+root.title("YouTube Downloader")
 
 video_list = list() # List that manages downloads
-sucsessful_videos = list() # List that stores finsihed downloads
+sucsessful_videos = list() # List that stores finished downloads
 
 watermark = Label(root, text="YouTube Downloading Tool by muppet")
 watermark.pack()
@@ -25,10 +27,10 @@ def create_download_page():
     global download_button
     global queue_label
     global entry_field
-    add_button = Button(root, text="Add to queue", command=add_video)
-    clear_button = Button(root, text="Clear", command=clear_queue)
-    download_button = Button(root, text="Download", command=download_videos)
-    entry_field = Entry(root) # URL entry widget
+    add_button = Button(root, text="Add", command=add_video, width=50, height=3)
+    clear_button = Button(root, text="Clear", command=clear_queue, width=50, height=3)
+    download_button = Button(root, text="Download", command=download_videos, width=50, height=3)
+    entry_field = Entry(root, width=50) # URL entry widget
     queue_label = Label(root, text="Videos: 0")
     entry_field.pack()
     queue_label.pack()
@@ -48,9 +50,9 @@ def create_start_page():
     global resolution_button_18
     global resolution_button_22
     global resolution_button_137
-    resolution_button_18 = Button(root, text="Resolution Itag: 18", command=lambda: get_itag_value(18))
-    resolution_button_22 = Button(root, text="Resolution Itag: 22", command=lambda: get_itag_value(22))
-    resolution_button_137 = Button(root, text="Resolution Itag: 137", command=lambda: get_itag_value(137))
+    resolution_button_18 = Button(root, text="Resolution Itag: 18", command=lambda: get_itag_value(18), width=50, height=3)
+    resolution_button_22 = Button(root, text="Resolution Itag: 22 (Most common)", command=lambda: get_itag_value(22), width=50, height=3)
+    resolution_button_137 = Button(root, text="Resolution Itag: 137", command=lambda: get_itag_value(137), width=50, height=3)
     resolution_button_18.pack()
     resolution_button_22.pack()
     resolution_button_137.pack()
@@ -91,15 +93,15 @@ def download_videos(): # I wouldn't change this too much
         try:
             v = pytube.YouTube(video) # pytube video object
             stream = v.streams.get_by_itag(itag_value)
-            stream.download("Videos") # Places all videos in the 'Video' folder, feel free to change this
+            stream.download("Videos") # Places all videos in the 'Video' folder, will give option to change in the future
             global finish_label
             finish_label = Label(root, text=("Finished video {}".format(x)))
             finish_label.pack()
             set_queue_label()
             sucsessful_videos.append(video)
-        except: # Python won't give a code error on invalid URLs or videos
+        except: # Python won't give a value error on invalid URLs or videos
             global log_label
-            log_label = Label(root, text="Invalid URL or incompatible resolution")
+            log_label = Label(root, text="ERROR: Invalid URL or incompatible resolution")
             log_label.pack()
         global finished_log_label
         finished_log_label = Label(root, text="Downloaded {} out of {} videos".format(len(sucsessful_videos), len(video_list)))
@@ -109,7 +111,7 @@ def download_videos(): # I wouldn't change this too much
         set_queue_label()
         remove_download_page()
         global continue_button
-        continue_button = Button(root, text="Continue", command=remove_log)
+        continue_button = Button(root, text="Continue", command=remove_log, width=50, height=3)
         continue_button.pack()
 
 create_start_page() # Starting page
