@@ -1,6 +1,8 @@
 from tkinter import *
+from tkinter import filedialog as fd
 import pytube
 import os
+import sys
 
 root = Tk()
 root.iconbitmap("assets/downloader.ico")
@@ -89,11 +91,12 @@ def clear_queue():
     entry_field.insert(0, "Copy URL here")
 
 def download_videos(): # I wouldn't change this too much
+    dir = fd.askdirectory()
     for x, video in enumerate(video_list):
         try:
             v = pytube.YouTube(video) # pytube video object
             stream = v.streams.get_by_itag(itag_value)
-            stream.download("Videos") # Places all videos in the 'Video' folder, will give option to change in the future
+            stream.download(dir) # Places all videos in the 'Video' folder, will give option to change in the future
             global finish_label
             finish_label = Label(root, text=("Finished video {}".format(x)))
             finish_label.pack()
@@ -114,6 +117,14 @@ def download_videos(): # I wouldn't change this too much
         continue_button = Button(root, text="Continue", command=remove_log, width=50, height=3)
         continue_button.pack()
 
+def debug():
+    print("Window Size: {}".format(root.geometry()))
+    print("Window Title: {}".format(root.title()))
+    print("Total Widgets: {}".format(len(root.grid_slaves())))
+    print("Module: {}".format(__name__))
+    print("Python Version: {}".format(sys.version))
+
 create_start_page() # Starting page
+debug()
 
 root.mainloop()
